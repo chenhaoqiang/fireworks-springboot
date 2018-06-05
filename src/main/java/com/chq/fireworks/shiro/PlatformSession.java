@@ -4,34 +4,44 @@ import java.util.Set;
 
 public class PlatformSession {
 
-	private String userNum;
+    private Integer userId;
 
-	private String userName;
+    private String userNum;
 
-	private Set<String> moduleCodes;
+    private String userName;
 
-	public String getUserNum() {
-		return userNum;
-	}
+    private Set<String> moduleCodes;
 
-	public void setUserNum(String userNum) {
-		this.userNum = userNum;
-	}
+    public Integer getUserId() {
+        return userId;
+    }
 
-	public String getUserName() {
-		return userName;
-	}
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public String getUserNum() {
+        return userNum;
+    }
 
-	public Set<String> getModuleCodes() {
-		return moduleCodes;
-	}
+    public void setUserNum(String userNum) {
+        this.userNum = userNum;
+    }
 
-	public void setModuleCodes(Set<String> moduleCodes) {
-		this.moduleCodes = moduleCodes;
-	}
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Set<String> getModuleCodes() {
+        return moduleCodes;
+    }
+
+    public void setModuleCodes(Set<String> moduleCodes) {
+        this.moduleCodes = moduleCodes;
+    }
 
 }

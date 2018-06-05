@@ -80,6 +80,12 @@ Ext.define('Hzsun.override.VTypes', {
         return this.zipRe.test(val);
     },
     zipRe : /\.(zip)$/,
-    zipText: 'zip文件格式不正确'
+    zipText: 'zip文件格式不正确',
+
+    password: function(val, field) {
+        return this.passwordRe.test(val);
+    },
+    passwordRe : /^([0-9a-zA-Z!@#$%^&*()-_=+.]){6,20}$/,
+    passwordText: '密码只能由字母、数字、字符组成，长度不少于6位，不超过20位'
 
 });

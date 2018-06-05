@@ -57,6 +57,7 @@ public class PlatformFormAuthenticationFilter extends FormAuthenticationFilter {
         UserQuery userQuery = new UserQuery();
         userQuery.setUserNum(userNum);
         User user = userService.queryUser(userQuery).get(0);
+        platformSession.setUserId(user.getUserId());
         platformSession.setUserNum(userNum);
         platformSession.setUserName(user.getUserName());
 

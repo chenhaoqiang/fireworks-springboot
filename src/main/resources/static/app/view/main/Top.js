@@ -26,11 +26,23 @@ Ext.define("App.view.main.Top", {
 						html: '{welcomeDesc}'
 					}
 				}, {
-					xtype: "hzsunbutton",
-					text: "退出",
-					glyph: 0xf011,
-					handler: "exitSys"
-				}]
+                    xtype: "hzsunbutton",
+                    text: "设置",
+                    glyph: 0xf013,
+                    menu: [/*{
+                        text: '个人信息',
+                        glyph: 0xf2bd,
+                        handler: "showUserInfo"
+                    }, */{
+                        text: '修改密码',
+                        glyph: 0xf044,
+                        handler: "openUpdateUserPasswordWin"
+                    }, {
+                        text: '退出',
+                        glyph: 0xf011,
+                        handler: "exitSys"
+                    }]
+                }]
 			}]
 		}); 
 		this.callParent(arguments);
