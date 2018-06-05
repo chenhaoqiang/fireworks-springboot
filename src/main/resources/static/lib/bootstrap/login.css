@@ -1,0 +1,49 @@
+body{
+    align:center;
+    valign:center;
+}
+.loginpage{
+    height: 100%;
+}
+.loginpage-bg{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-position: center center;
+    background-size: cover;
+    background-image: url("background1.jpg");
+}
+.login{
+    margin-top: 50px;
+}
+.title-text{
+    text-align: center;
+}
+.h1fontsize{
+    font-size: 50pt;
+    margin-bottom: 70px;
+    color: #ffffff;
+}
+.h2fontsize{
+    font-size: 30pt;
+    margin-bottom: 70px;
+    color: #ffffff;
+}
+.login-icon{
+    /*padding-left: 30px;*/
+    /*float: right;*/
+    font-size: 25px;
+    color: #ffffff;
+    /*width: 40px;*/
+}
+.login-label{
+    padding-right: 30px;
+    font-size: 25px;
+    color: #ffffff;
+}
+.login-group1{
+    padding-bottom: 20px;
+}
+.login-group2{
+    padding-bottom: 20px;
+}

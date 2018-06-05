@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.fireworks.mapper.SystemConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.chq.fireworks.model.SystemConfig" >
+    <id column="cfg_code" property="cfgCode" jdbcType="CHAR" />
+    <result column="cfg_value" property="cfgValue" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cfg_code, cfg_value, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sc_system_config
+    where cfg_code = #{cfgCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sc_system_config
+    where cfg_code = #{cfgCode,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chq.fireworks.model.SystemConfig" >
+    insert into sc_system_config (cfg_code, cfg_value, remark
+      )
+    values (#{cfgCode,jdbcType=CHAR}, #{cfgValue,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chq.fireworks.model.SystemConfig" >
+    insert into sc_system_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cfgCode != null" >
+        cfg_code,
+      </if>
+      <if test="cfgValue != null" >
+        cfg_value,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cfgCode != null" >
+        #{cfgCode,jdbcType=CHAR},
+      </if>
+      <if test="cfgValue != null" >
+        #{cfgValue,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.SystemConfig" >
+    update sc_system_config
+    <set >
+      <if test="cfgValue != null" >
+        cfg_value = #{cfgValue,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cfg_code = #{cfgCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.SystemConfig" >
+    update sc_system_config
+    set cfg_value = #{cfgValue,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where cfg_code = #{cfgCode,jdbcType=CHAR}
+  </update>
+</mapper>

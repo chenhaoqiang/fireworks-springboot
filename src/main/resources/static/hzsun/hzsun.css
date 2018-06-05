@@ -1,0 +1,31 @@
+.hzsun-imageview {
+    width: 100%;
+    float: left;
+    display: block;
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 20px 0
+}
+
+.hzsun-imageview h4 {
+    text-align: left;
+    font-size: 16px;
+    margin-left: 20px;
+}
+
+.hzsun-imageview ul {
+    text-align: left;
+    list-style: none
+}
+
+.hzsun-imageview ul li {
+    float: left;
+    margin-left: 40px;
+}
+
+.hzsun-imageview ul li a {
+    text-decoration: none;
+    color: black;
+}
+.hzsun-imageview ul li a:hover {
+    color: #157fcc;
+}

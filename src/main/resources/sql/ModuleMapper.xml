@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.fireworks.mapper.ModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.chq.fireworks.model.Module" >
+    <id column="module_code" property="moduleCode" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+    <result column="sort_id" property="sortId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="module_tag" property="moduleTag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    module_code, parent_code, module_name, sort_id, remark, module_tag
+  </sql>
+
+  <sql id="Column_List">
+    a.module_code, a.parent_code, a.module_name, a.sort_id, a.REMARK, a.module_tag
+  </sql>
+
+  <select id="queryModule" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List" />
+    from sc_module a
+    <where>
+      <if test="null != roleId">
+        and exists (select 1 from sc_role_module b
+        where a.module_code=b.module_code and b.role_id=#{roleId})
+      </if>
+      <if test="null != moduleCode and '' != moduleCode">
+        and a.module_code = #{moduleCode}
+      </if>
+      <if test="null != moduleName and '' != moduleName">
+        and a.module_name like CONCAT('%',#{moduleName},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="queryModuleMenu" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List" />
+    from sc_module a where
+    exists (select 1 from sc_module b where a.module_code=b.parent_code)
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sc_module
+    where module_code = #{moduleCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sc_module
+    where module_code = #{moduleCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chq.fireworks.model.Module" >
+    insert into sc_module (module_code, parent_code, module_name, 
+      sort_id, remark, module_tag
+      )
+    values (#{moduleCode,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, 
+      #{sortId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{moduleTag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chq.fireworks.model.Module" >
+    insert into sc_module
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="moduleCode != null" >
+        module_code,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="moduleName != null" >
+        module_name,
+      </if>
+      <if test="sortId != null" >
+        sort_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="moduleTag != null" >
+        module_tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="moduleCode != null" >
+        #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null" >
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortId != null" >
+        #{sortId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleTag != null" >
+        #{moduleTag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.Module" >
+    update sc_module
+    <set >
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null" >
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="sortId != null" >
+        sort_id = #{sortId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleTag != null" >
+        module_tag = #{moduleTag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where module_code = #{moduleCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.Module" >
+    update sc_module
+    set parent_code = #{parentCode,jdbcType=VARCHAR},
+      module_name = #{moduleName,jdbcType=VARCHAR},
+      sort_id = #{sortId,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      module_tag = #{moduleTag,jdbcType=VARCHAR}
+    where module_code = #{moduleCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

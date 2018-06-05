@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.fireworks.mapper.DictMapper" >
+  <resultMap id="BaseResultMap" type="com.chq.fireworks.model.Dict" >
+    <id column="type_num" property="typeNum" jdbcType="INTEGER" />
+    <id column="dict_num" property="dictNum" jdbcType="INTEGER" />
+    <result column="dict_code" property="dictCode" jdbcType="VARCHAR" />
+    <result column="dict_name" property="dictName" jdbcType="VARCHAR" />
+    <result column="parent_dict_num" property="parentDictNum" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    type_num, dict_num, dict_code, dict_name, parent_dict_num, remark
+  </sql>
+
+  <sql id="Column_List">
+    a.type_num, a.dict_num, a.dict_code, a.dict_name, a.parent_dict_num, a.remark
+  </sql>
+
+  <select id="queryDict" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List" />, b.type_name as dt_type_name
+    from sc_dict a
+    left join sc_dict_type b on a.type_num=b.type_num
+    <where>
+      <if test="null != typeNum">
+        and a.type_num = #{typeNum}
+      </if>
+    </where>
+    order by a.type_num, a.dict_num
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.chq.fireworks.model.DictKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from sc_dict
+    where type_num = #{typeNum,jdbcType=INTEGER}
+      and dict_num = #{dictNum,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.chq.fireworks.model.DictKey" >
+    delete from sc_dict
+    where type_num = #{typeNum,jdbcType=INTEGER}
+      and dict_num = #{dictNum,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chq.fireworks.model.Dict" >
+    insert into sc_dict (type_num, dict_num, dict_code, 
+      dict_name, parent_dict_num, remark
+      )
+    values (#{typeNum,jdbcType=INTEGER}, #{dictNum,jdbcType=INTEGER}, #{dictCode,jdbcType=VARCHAR}, 
+      #{dictName,jdbcType=VARCHAR}, #{parentDictNum,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chq.fireworks.model.Dict" >
+    insert into sc_dict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeNum != null" >
+        type_num,
+      </if>
+      <if test="dictNum != null" >
+        dict_num,
+      </if>
+      <if test="dictCode != null" >
+        dict_code,
+      </if>
+      <if test="dictName != null" >
+        dict_name,
+      </if>
+      <if test="parentDictNum != null" >
+        parent_dict_num,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeNum != null" >
+        #{typeNum,jdbcType=INTEGER},
+      </if>
+      <if test="dictNum != null" >
+        #{dictNum,jdbcType=INTEGER},
+      </if>
+      <if test="dictCode != null" >
+        #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictName != null" >
+        #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentDictNum != null" >
+        #{parentDictNum,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.Dict" >
+    update sc_dict
+    <set >
+      <if test="dictCode != null" >
+        dict_code = #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictName != null" >
+        dict_name = #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentDictNum != null" >
+        parent_dict_num = #{parentDictNum,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where type_num = #{typeNum,jdbcType=INTEGER}
+      and dict_num = #{dictNum,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.Dict" >
+    update sc_dict
+    set dict_code = #{dictCode,jdbcType=VARCHAR},
+      dict_name = #{dictName,jdbcType=VARCHAR},
+      parent_dict_num = #{parentDictNum,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where type_num = #{typeNum,jdbcType=INTEGER}
+      and dict_num = #{dictNum,jdbcType=INTEGER}
+  </update>
+</mapper>

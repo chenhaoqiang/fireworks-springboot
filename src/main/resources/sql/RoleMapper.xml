@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.fireworks.mapper.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.chq.fireworks.model.Role" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    role_id, role_name, flag, remark
+  </sql>
+
+  <sql id="Column_List">
+    a.role_id, a.role_name, a.flag, a.remark
+  </sql>
+
+  <select id="queryRole" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List" />
+    from sc_role a
+    <where>
+      <if test="roleId != null">
+        a.role_id = #{roleId}
+      </if>
+      <if test="roleName != null and roleName != ''">
+        <choose>
+          <when test="isRoleNameFuzzyQuery">
+            a.role_name like CONCAT('%', #{roleName}, '%')
+          </when>
+          <otherwise>
+            a.role_name = #{roleName}
+          </otherwise>
+        </choose>
+      </if>
+      <if test="null != userId">
+        exists (select 1 from sc_user_role b where b.user_id = #{userId} and a.role_id = b.role_id)
+      </if>
+    </where>
+    order by a.role_id desc
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sc_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sc_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chq.fireworks.model.Role" >
+    insert into sc_role (role_id, role_name, flag, 
+      remark)
+    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chq.fireworks.model.Role" >
+    insert into sc_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.Role" >
+    update sc_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.Role" >
+    update sc_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+</mapper>

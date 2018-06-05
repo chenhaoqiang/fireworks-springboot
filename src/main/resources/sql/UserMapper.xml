@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chq.fireworks.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.chq.fireworks.model.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_num" jdbcType="VARCHAR" property="userNum" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="login_password" jdbcType="VARCHAR" property="loginPassword" />
+    <result column="is_default_password" jdbcType="INTEGER" property="isDefaultPassword" />
+    <result column="id_type" jdbcType="INTEGER" property="idType" />
+    <result column="id_no" jdbcType="VARCHAR" property="idNo" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="phone_no" jdbcType="VARCHAR" property="phoneNo" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_num, user_name, login_password, is_default_password, id_type, id_no, 
+    flag, phone_no, email, remark
+  </sql>
+
+  <sql id="Column_List">
+    a.user_id, a.user_num, a.user_name, a.login_password, a.is_default_password, a.id_type, a.id_no,
+    a.flag, a.phone_no, a.email, a.remark
+  </sql>
+
+  <select id="queryUser" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List" />, b.dict_name as idtype_dict_name
+    from sc_user a
+    left join sc_dict b on a.id_type=b.dict_num and b.type_num=#{idTypeDictType}
+    <where>
+      <if test="userId != null">
+        a.user_id = #{userId}
+      </if>
+      <if test="userNum != null">
+        a.user_num = #{userNum}
+      </if>
+      <if test="userName != null and userName != ''">
+        <choose>
+          <when test="isUserNameFuzzyQuery">
+            a.user_name CONCAT('%', #{userName}, '%')
+          </when>
+          <otherwise>
+            a.user_name = #{userName}
+          </otherwise>
+        </choose>
+      </if>
+      <if test="idType != null">
+        a.id_type = #{idType}
+      </if>
+      <if test="idNo != null and idNo != ''">
+        a.id_no = #{idNo}
+      </if>
+      <if test="flag != null">
+        a.flag = #{flag}
+      </if>
+      <if test="phoneNo != null and phoneNo != ''">
+        a.phone_no = #{phoneNo}
+      </if>
+      <if test="email != null and email != ''">
+        a.email = #{email}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sc_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chq.fireworks.model.User">
+    insert into sc_user (user_id, user_num, user_name, 
+      login_password, is_default_password, id_type, 
+      id_no, flag, phone_no, 
+      email, remark)
+    values (#{userId,jdbcType=INTEGER}, #{userNum,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{loginPassword,jdbcType=VARCHAR}, #{isDefaultPassword,jdbcType=INTEGER}, #{idType,jdbcType=INTEGER}, 
+      #{idNo,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, #{phoneNo,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chq.fireworks.model.User">
+    insert into sc_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userNum != null">
+        user_num,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="loginPassword != null">
+        login_password,
+      </if>
+      <if test="isDefaultPassword != null">
+        is_default_password,
+      </if>
+      <if test="idType != null">
+        id_type,
+      </if>
+      <if test="idNo != null">
+        id_no,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+      <if test="phoneNo != null">
+        phone_no,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userNum != null">
+        #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null">
+        #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefaultPassword != null">
+        #{isDefaultPassword,jdbcType=INTEGER},
+      </if>
+      <if test="idType != null">
+        #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="idNo != null">
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNo != null">
+        #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.User">
+    update sc_user
+    <set>
+      <if test="userNum != null">
+        user_num = #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null">
+        login_password = #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefaultPassword != null">
+        is_default_password = #{isDefaultPassword,jdbcType=INTEGER},
+      </if>
+      <if test="idType != null">
+        id_type = #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="idNo != null">
+        id_no = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNo != null">
+        phone_no = #{phoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.User">
+    update sc_user
+    set user_num = #{userNum,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      login_password = #{loginPassword,jdbcType=VARCHAR},
+      is_default_password = #{isDefaultPassword,jdbcType=INTEGER},
+      id_type = #{idType,jdbcType=INTEGER},
+      id_no = #{idNo,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      phone_no = #{phoneNo,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

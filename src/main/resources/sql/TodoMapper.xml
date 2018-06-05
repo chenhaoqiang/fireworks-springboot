@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chq.fireworks.mapper.TodoMapper">
+  <resultMap id="BaseResultMap" type="com.chq.fireworks.model.Todo">
+    <id column="todo_num" jdbcType="INTEGER" property="todoNum" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="todo_type" jdbcType="INTEGER" property="todoType" />
+    <result column="complete_remark" jdbcType="VARCHAR" property="completeRemark" />
+    <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
+    <result column="complete_user" jdbcType="VARCHAR" property="completeUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    todo_num, content, create_time, create_user, status, todo_type, complete_remark, 
+    complete_time, complete_user
+  </sql>
+
+  <sql id="Column_List">
+    a.todo_num, a.content, a.create_time, a.create_user, a.status, a.todo_type, a.complete_remark,
+    a.complete_time, a.complete_user
+  </sql>
+
+  <select id="queryTodo" resultMap="BaseResultMap">
+    select
+    <include refid="Column_List" />, b.dict_name as todotype_dict_name,
+    c.user_name as crtu_user_name, d.user_name as cplu_user_name
+    from tk_todo a
+    left join sc_dict b on a.todo_type = b.dict_num and b.type_num = #{todoTypeDictType}
+    left join sc_user c on a.create_user = c.user_num
+    left join sc_user d on a.complete_user = d.user_num
+    <where>
+      <if test="null != todoNum">
+        and a.todo_num = #{todoNum}
+      </if>
+      <if test="null != todoType">
+        and a.todo_type = #{todoType}
+      </if>
+      <if test="null != createDate">
+        and DATEDIFF(a.create_time, #{createDate}) = 0
+      </if>
+      <if test="null != completeDate">
+        and DATEDIFF(a.complete_time, #{completeDate}) = 0
+      </if>
+      <if test="null != status">
+        and a.status = #{status}
+      </if>
+      and a.status != -1
+    </where>
+    order by a.todo_num desc
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tk_todo
+    where todo_num = #{todoNum,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tk_todo
+    where todo_num = #{todoNum,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chq.fireworks.model.Todo">
+    insert into tk_todo (todo_num, content, create_time, 
+      create_user, status, todo_type, 
+      complete_remark, complete_time, complete_user
+      )
+    values (#{todoNum,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{todoType,jdbcType=INTEGER}, 
+      #{completeRemark,jdbcType=VARCHAR}, #{completeTime,jdbcType=TIMESTAMP}, #{completeUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chq.fireworks.model.Todo">
+    insert into tk_todo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="todoNum != null">
+        todo_num,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="todoType != null">
+        todo_type,
+      </if>
+      <if test="completeRemark != null">
+        complete_remark,
+      </if>
+      <if test="completeTime != null">
+        complete_time,
+      </if>
+      <if test="completeUser != null">
+        complete_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="todoNum != null">
+        #{todoNum,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="todoType != null">
+        #{todoType,jdbcType=INTEGER},
+      </if>
+      <if test="completeRemark != null">
+        #{completeRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="completeTime != null">
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeUser != null">
+        #{completeUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.Todo">
+    update tk_todo
+    <set>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="todoType != null">
+        todo_type = #{todoType,jdbcType=INTEGER},
+      </if>
+      <if test="completeRemark != null">
+        complete_remark = #{completeRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="completeTime != null">
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeUser != null">
+        complete_user = #{completeUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where todo_num = #{todoNum,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.Todo">
+    update tk_todo
+    set content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      todo_type = #{todoType,jdbcType=INTEGER},
+      complete_remark = #{completeRemark,jdbcType=VARCHAR},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      complete_user = #{completeUser,jdbcType=VARCHAR}
+    where todo_num = #{todoNum,jdbcType=INTEGER}
+  </update>
+</mapper>

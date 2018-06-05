@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.fireworks.mapper.TableMaxNumMapper" >
+  <resultMap id="BaseResultMap" type="com.chq.fireworks.model.TableMaxNum" >
+    <id column="table_name" property="tableName" jdbcType="VARCHAR" />
+    <id column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="current_value" property="currentValue" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    table_name, field_name, current_value, remark
+  </sql>
+
+  <update id="updateMaxNum">
+    update sc_table_maxnum
+    set current_value = current_value + 1
+    where table_name = #{tableName}
+    and field_name = #{fieldName}
+  </update>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.chq.fireworks.model.TableMaxNumKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from sc_table_maxnum
+    where table_name = #{tableName,jdbcType=VARCHAR}
+      and field_name = #{fieldName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.chq.fireworks.model.TableMaxNumKey" >
+    delete from sc_table_maxnum
+    where table_name = #{tableName,jdbcType=VARCHAR}
+      and field_name = #{fieldName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.chq.fireworks.model.TableMaxNum" >
+    insert into sc_table_maxnum (table_name, field_name, current_value, 
+      remark)
+    values (#{tableName,jdbcType=VARCHAR}, #{fieldName,jdbcType=VARCHAR}, #{currentValue,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chq.fireworks.model.TableMaxNum" >
+    insert into sc_table_maxnum
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tableName != null" >
+        table_name,
+      </if>
+      <if test="fieldName != null" >
+        field_name,
+      </if>
+      <if test="currentValue != null" >
+        current_value,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tableName != null" >
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldName != null" >
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="currentValue != null" >
+        #{currentValue,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.TableMaxNum" >
+    update sc_table_maxnum
+    <set >
+      <if test="currentValue != null" >
+        current_value = #{currentValue,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where table_name = #{tableName,jdbcType=VARCHAR}
+      and field_name = #{fieldName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.TableMaxNum" >
+    update sc_table_maxnum
+    set current_value = #{currentValue,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where table_name = #{tableName,jdbcType=VARCHAR}
+      and field_name = #{fieldName,jdbcType=VARCHAR}
+  </update>
+</mapper>
