@@ -4,88 +4,97 @@ import java.util.List;
 
 public class ExtTreeNode {
 
-	private String id;
-	private List<? extends ExtTreeNode> children;
-	private String cls;
-	private boolean expanded;
-	private String icon;
-	private String iconCls;
-	private boolean leaf;
-	private String text;
-	// 自定义属性
-	private String moduleTag;
+    private String id;
+    private List<? extends ExtTreeNode> children;
+    private String cls;
+    private boolean expanded;
+    private String icon;
+    private String iconCls;
+    private boolean leaf;
+    private String text;
+    // 自定义属性
+    private String moduleTag;
+    private String style;
 
-	public String getModuleTag() {
-		return moduleTag;
-	}
+    public String getStyle() {
+        return style;
+    }
 
-	public void setModuleTag(String moduleTag) {
-		this.moduleTag = moduleTag;
-	}
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getModuleTag() {
+        return moduleTag;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setModuleTag(String moduleTag) {
+        this.moduleTag = moduleTag;
+    }
 
-	public List<? extends ExtTreeNode> getChildren() {
-		return children;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setChildren(List<? extends ExtTreeNode> children) {
-		this.children = children;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getCls() {
-		return cls;
-	}
+    public List<? extends ExtTreeNode> getChildren() {
+        return children;
+    }
 
-	public void setCls(String cls) {
-		this.cls = cls;
-	}
+    public void setChildren(List<? extends ExtTreeNode> children) {
+        this.children = children;
+    }
 
-	public boolean isExpanded() {
-		return expanded;
-	}
+    public String getCls() {
+        return cls;
+    }
 
-	public void setExpanded(boolean expanded) {
-		this.expanded = expanded;
-	}
+    public void setCls(String cls) {
+        this.cls = cls;
+    }
 
-	public String getIcon() {
-		return icon;
-	}
+    public boolean isExpanded() {
+        return expanded;
+    }
 
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
 
-	public String getIconCls() {
-		return iconCls;
-	}
+    public String getIcon() {
+        return icon;
+    }
 
-	public void setIconCls(String iconCls) {
-		this.iconCls = iconCls;
-	}
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
-	public boolean isLeaf() {
-		leaf = null == children || children.isEmpty();
-		return leaf;
-	}
+    public String getIconCls() {
+        return iconCls;
+    }
 
-	public void setLeaf(boolean leaf) {
-		this.leaf = leaf;
-	}
+    public void setIconCls(String iconCls) {
+        this.iconCls = iconCls;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public boolean isLeaf() {
+        leaf = null == children || children.isEmpty();
+        return leaf;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setLeaf(boolean leaf) {
+        this.leaf = leaf;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
 }

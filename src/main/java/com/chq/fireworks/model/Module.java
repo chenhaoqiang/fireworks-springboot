@@ -13,6 +13,16 @@ public class Module {
 
     private String moduleTag;
 
+    private String style;
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
     public String getModuleCode() {
         return moduleCode;
     }

@@ -8,13 +8,14 @@
     <result column="sort_id" property="sortId" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="module_tag" property="moduleTag" jdbcType="VARCHAR" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    module_code, parent_code, module_name, sort_id, remark, module_tag
+    module_code, parent_code, module_name, sort_id, remark, module_tag, style
   </sql>
 
   <sql id="Column_List">
-    a.module_code, a.parent_code, a.module_name, a.sort_id, a.REMARK, a.module_tag
+    a.module_code, a.parent_code, a.module_name, a.sort_id, a.REMARK, a.module_tag, a.style
   </sql>
 
   <select id="queryModule" resultMap="BaseResultMap">
@@ -54,7 +55,7 @@
   </delete>
   <insert id="insert" parameterType="com.chq.fireworks.model.Module" >
     insert into sc_module (module_code, parent_code, module_name, 
-      sort_id, remark, module_tag
+      sort_id, remark, module_tag, style
       )
     values (#{moduleCode,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, 
       #{sortId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{moduleTag,jdbcType=VARCHAR}
@@ -81,6 +82,9 @@
       <if test="moduleTag != null" >
         module_tag,
       </if>
+      <if test="style != null" >
+        style,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="moduleCode != null" >
@@ -100,6 +104,9 @@
       </if>
       <if test="moduleTag != null" >
         #{moduleTag,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -121,6 +128,9 @@
       <if test="moduleTag != null" >
         module_tag = #{moduleTag,jdbcType=VARCHAR},
       </if>
+      <if test="style != null" >
+        style = #{style,jdbcType=VARCHAR},
+      </if>
     </set>
     where module_code = #{moduleCode,jdbcType=VARCHAR}
   </update>
@@ -130,7 +140,8 @@
       module_name = #{moduleName,jdbcType=VARCHAR},
       sort_id = #{sortId,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      module_tag = #{moduleTag,jdbcType=VARCHAR}
+      module_tag = #{moduleTag,jdbcType=VARCHAR},
+      style = #{style,jdbcType=VARCHAR}
     where module_code = #{moduleCode,jdbcType=VARCHAR}
   </update>
 </mapper>

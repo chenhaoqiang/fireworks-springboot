@@ -129,10 +129,9 @@ public class ModuleController extends BaseController {
                 treeNode.setId(dto.getModuleCode());
                 treeNode.setText(dto.getModuleName());
                 treeNode.setChildren(getChildrenTreeNode(subject, dtoList, dto.getModuleCode()));
-                treeNode.setCls(null);
                 treeNode.setExpanded(true);
                 treeNode.setModuleTag(dto.getModuleTag());
-                // treeNode.setCls("node-link");
+                treeNode.setStyle(dto.getStyle());
                 treeNodes.add(treeNode);
             }
         }
@@ -146,10 +145,9 @@ public class ModuleController extends BaseController {
                 treeNode.setId(dto.getModuleCode());
                 treeNode.setText(dto.getModuleName());
                 treeNode.setChildren(getChildrenTreeNode(subject, dtoList, dto.getModuleCode()));
-                treeNode.setCls(null);
                 treeNode.setExpanded(true);
                 treeNode.setModuleTag(dto.getModuleTag());
-                // treeNode.setCls("node-link");
+                treeNode.setStyle(dto.getStyle());
                 childrenTreeNode.add(treeNode);
             }
         }
