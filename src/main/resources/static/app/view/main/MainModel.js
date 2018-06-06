@@ -23,36 +23,57 @@ Ext.define("App.view.main.MainModel", {
                     // 设置首页桌面菜单图标
                     var desktop = Ext.getCmp('desktop').down('hzsunimageview');
                     var desktopData = [];
-                    desktopData.push({
-                        caption: '最近使用',
-                        items: [{
-                            src: 'lib/img/modules/role.png',
-                            moduleCode: '00101',
-                            name: '角色管理'
-                        }, {
-                            src: 'lib/img/modules/user.png',
-                            moduleCode: '00102',
-                            name: '用户管理'
-                        }, {
-                            src: 'lib/img/modules/module.png',
-                            moduleCode: '00103',
-                            name: '功能模块'
-                        }]
+                    var userId = comm.get('platformSession').userId;
+                    Hzsun.Ajax.request({
+                        url: 'user/queryUserRecentlyUseModule',
+                        params: {
+                            userId : userId
+                        },
+                        async: false,
+                        success: function (obj) {
+                            if(!obj || obj.length == 0){
+                                return;
+                            }
+                            var items = [];
+                            Ext.each(obj, function (item) {
+                                items.push({
+                                    src: item.style ? 'lib/img/modules/' + item.style + '.png' : 'lib/img/modules/module.png',
+                                    moduleCode: item.moduleCode,
+                                    name: item.moduleName
+                                });
+                            });
+                            desktopData.push({
+                                caption: '最近使用',
+                                items: items
+                            });
+                        }
                     });
 
-                    desktopData.push({
-                        caption: '为你推荐',
-                        items: [{
-                            src: 'lib/img/modules/role.png',
-                            moduleCode: '00101',
-                            name: '角色管理'
-                        }, {
-                            src: 'lib/img/modules/user.png',
-                            moduleCode: '00102',
-                            name: '用户管理'
-                        }]
+                    Hzsun.Ajax.request({
+                        url: 'user/queryRecommendUseModule',
+                        params: {
+                            userId : userId
+                        },
+                        async: false,
+                        success: function (obj) {
+                            if(!obj || obj.length == 0){
+                                return;
+                            }
+                            var items = [];
+                            Ext.each(obj, function (item) {
+                                items.push({
+                                    src: item.style ? 'lib/img/modules/' + item.style + '.png' : 'lib/img/modules/module.png',
+                                    moduleCode: item.moduleCode,
+                                    name: item.moduleName
+                                });
+                            });
+                            desktopData.push({
+                                caption: '为你推荐',
+                                items: items
+                            });
+                        }
                     });
-                    
+
                     Ext.each(records, function(rec) {
                         var childs = rec.data.children;
                         var items = [];

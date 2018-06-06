@@ -17,6 +17,17 @@ Ext.define("App.view.main.MainController", {
             Ext.require(["App.view." + moduleTag], function () {
                 me.loadModule(module);
             });
+
+            Hzsun.Ajax.request({
+                url: 'user/addUserModuleUse',
+                params: {
+                    userId: comm.get('platformSession').userId,
+                    moduleCode: rec.data.id
+                },
+                success: function () {
+                    
+                }
+            });
         } else {
             // Ext.Msg.alert("错误", "加载模块失败！");
         }

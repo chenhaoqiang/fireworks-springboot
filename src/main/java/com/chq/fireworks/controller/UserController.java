@@ -62,4 +62,19 @@ public class UserController extends BaseController {
         userService.clearPassword(userId);
     }
 
+    @RequestMapping(value = "/queryUserRecentlyUseModule", method = RequestMethod.POST)
+    public void queryUserRecentlyUseModule(Integer userId, PrintWriter pw) {
+        output(pw, JSON.toJSONString(userService.queryUserRecentlyUseModule(userId)));
+    }
+
+    @RequestMapping(value = "/queryRecommendUseModule", method = RequestMethod.POST)
+    public void queryRecommendUseModule(Integer userId, PrintWriter pw) {
+        output(pw, JSON.toJSONString(userService.queryRecommendUseModule(userId)));
+    }
+
+    @RequestMapping(value = "/addUserModuleUse", method = RequestMethod.POST)
+    public void addUserModuleUse(Integer userId, String moduleCode, PrintWriter pw) {
+        userService.addUserModuleUse(userId, moduleCode);
+    }
+
 }

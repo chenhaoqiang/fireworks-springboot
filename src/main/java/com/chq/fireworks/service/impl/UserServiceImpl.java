@@ -6,11 +6,9 @@ import com.chq.fireworks.common.util.AssertUtil;
 import com.chq.fireworks.common.util.PasswordUtil;
 import com.chq.fireworks.mapper.RoleModuleMapper;
 import com.chq.fireworks.mapper.UserMapper;
+import com.chq.fireworks.mapper.UserModuleUseMapper;
 import com.chq.fireworks.mapper.UserRoleMapper;
-import com.chq.fireworks.model.Role;
-import com.chq.fireworks.model.RoleModuleKey;
-import com.chq.fireworks.model.User;
-import com.chq.fireworks.model.UserRoleKey;
+import com.chq.fireworks.model.*;
 import com.chq.fireworks.qo.UserQuery;
 import com.chq.fireworks.service.TableMaxNumService;
 import com.chq.fireworks.service.UserService;
@@ -22,10 +20,7 @@ import com.hzsun.framework.commons.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -38,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private UserRoleMapper userRoleMapper;
     @Autowired
     private TableMaxNumService tableMaxNumService;
+    @Autowired
+    private UserModuleUseMapper userModuleUseMapper;
 
     @Override
     public void addUser(User user, List<Integer> roleIdList) {
@@ -140,6 +137,37 @@ public class UserServiceImpl implements UserService {
             }
         }
         return roles;
+    }
+
+    @Override
+    public List<UserModuleUse> queryUserRecentlyUseModule(Integer userId) {
+        return userModuleUseMapper.queryUserRecentlyUseModule(userId);
+    }
+
+    @Override
+    public List<UserModuleUse> queryRecommendUseModule(Integer userId) {
+        return userModuleUseMapper.queryRecommendUseModule(userId);
+    }
+
+    @Override
+    public void addUserModuleUse(Integer userId, String moduleCode) {
+        UserModuleUseKey key = new UserModuleUseKey();
+        key.setModuleCode(moduleCode);
+        key.setUserId(userId);
+        UserModuleUse userModuleUse = userModuleUseMapper.selectByPrimaryKey(key);
+        if (null == userModuleUse) {
+            UserModuleUse record = new UserModuleUse();
+            record.setUserId(userId);
+            record.setModuleCode(moduleCode);
+            record.setLastUseTime(new Date());
+            record.setUseTimes(1);
+            userModuleUseMapper.insert(record);
+        } else {
+            userModuleUse.setLastUseTime(new Date());
+            userModuleUse.setUseTimes(userModuleUse.getUseTimes() + 1);
+            userModuleUseMapper.updateByPrimaryKeySelective(userModuleUse);
+        }
+
     }
 
     private void saveUserRole(Integer userId, List<Integer> roleIdList) {

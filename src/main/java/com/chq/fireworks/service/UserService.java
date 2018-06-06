@@ -2,6 +2,7 @@ package com.chq.fireworks.service;
 
 import com.chq.fireworks.model.Role;
 import com.chq.fireworks.model.User;
+import com.chq.fireworks.model.UserModuleUse;
 import com.chq.fireworks.qo.UserQuery;
 import com.github.pagehelper.PageInfo;
 import com.hzsun.framework.commons.PageBean;
@@ -63,4 +64,28 @@ public interface UserService {
     void clearPassword(Integer userId);
 
     List<Role> queryUserRole(UserQuery userQuery);
+
+    /**
+     * 查询用户最近使用模块，取10条。
+     *
+     * @param userId 用户ID
+     * @return 模块集合
+     */
+    List<UserModuleUse> queryUserRecentlyUseModule(Integer userId);
+
+    /**
+     * 查询推荐使用模块，根据所有用户使用情况统计，取10条。
+     *
+     * @param userId 用户ID
+     * @return 模块集合
+     */
+    List<UserModuleUse> queryRecommendUseModule(Integer userId);
+
+    /**
+     * 插入用户模块使用情况
+     *
+     * @param userId     用户ID
+     * @param moduleCode 模块编号
+     */
+    void addUserModuleUse(Integer userId, String moduleCode);
 }

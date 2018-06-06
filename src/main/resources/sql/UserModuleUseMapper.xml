@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.fireworks.mapper.UserModuleUseMapper">
+    <resultMap id="BaseResultMap" type="com.chq.fireworks.model.UserModuleUse">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="module_code" property="moduleCode" jdbcType="VARCHAR"/>
+        <result column="use_times" property="useTimes" jdbcType="INTEGER"/>
+        <result column="last_use_time" property="lastUseTime" jdbcType="TIMESTAMP"/>
+        <result column="module_name" property="moduleName" jdbcType="VARCHAR"/>
+        <result column="style" property="style" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id, module_code, use_times, last_use_time
+    </sql>
+    <sql id="Column_List">
+        a.user_id, a.module_code, a.use_times, a.last_use_time
+    </sql>
+
+    <select id="queryUserRecentlyUseModule" resultMap="BaseResultMap">
+        select a.module_code, sm.module_name, sm.style
+        from sc_user_module_use a
+        LEFT JOIN sc_module sm ON a.module_code = sm.module_code
+        where a.user_id = #{userId,jdbcType=INTEGER}
+        ORDER BY a.last_use_time DESC LIMIT 10
+    </select>
+
+    <select id="queryRecommendUseModule" resultMap="BaseResultMap">
+        SELECT t1.module_code, t1.module_name, t1.style, t2.total_use_times FROM (
+          SELECT a.module_code, a.module_name, a.style FROM sc_module a
+          WHERE NOT exists(SELECT 1 FROM sc_user_module_use sumu WHERE sumu.module_code=a.module_code and sumu.user_id=#{userId})
+          AND LENGTH(a.module_code)=5
+        ) t1
+        LEFT JOIN (
+          SELECT a.module_code, sum(a.use_times) as total_use_times
+          FROM sc_user_module_use a
+          GROUP BY a.module_code
+          ORDER BY total_use_times DESC
+        ) t2 on t1.module_code=t2.module_code
+        ORDER BY t2.total_use_times DESC, t1.module_code
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.chq.fireworks.model.UserModuleUseKey">
+        select
+        <include refid="Base_Column_List"/>
+        from sc_user_module_use
+        where user_id = #{userId,jdbcType=INTEGER}
+        and module_code = #{moduleCode,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="com.chq.fireworks.model.UserModuleUseKey">
+        DELETE FROM sc_user_module_use
+        WHERE user_id = #{userId,jdbcType=INTEGER}
+              AND module_code = #{moduleCode,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.chq.fireworks.model.UserModuleUse">
+        INSERT INTO sc_user_module_use (user_id, module_code, use_times,
+                                        last_use_time)
+        VALUES (#{userId,jdbcType=INTEGER}, #{moduleCode,jdbcType=VARCHAR}, #{useTimes,jdbcType=INTEGER},
+                #{lastUseTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.chq.fireworks.model.UserModuleUse">
+        insert into sc_user_module_use
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="moduleCode != null">
+                module_code,
+            </if>
+            <if test="useTimes != null">
+                use_times,
+            </if>
+            <if test="lastUseTime != null">
+                last_use_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="moduleCode != null">
+                #{moduleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="useTimes != null">
+                #{useTimes,jdbcType=INTEGER},
+            </if>
+            <if test="lastUseTime != null">
+                #{lastUseTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.UserModuleUse">
+        update sc_user_module_use
+        <set>
+            <if test="useTimes != null">
+                use_times = #{useTimes,jdbcType=INTEGER},
+            </if>
+            <if test="lastUseTime != null">
+                last_use_time = #{lastUseTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+        and module_code = #{moduleCode,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.UserModuleUse">
+        UPDATE sc_user_module_use
+        SET use_times     = #{useTimes,jdbcType=INTEGER},
+            last_use_time = #{lastUseTime,jdbcType=TIMESTAMP}
+        WHERE user_id = #{userId,jdbcType=INTEGER}
+              AND module_code = #{moduleCode,jdbcType=VARCHAR}
+    </update>
+</mapper>
