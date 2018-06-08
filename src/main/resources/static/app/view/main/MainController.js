@@ -12,9 +12,9 @@ Ext.define("App.view.main.MainController", {
         }
         var me = this;
         var moduleTag = rec.data.moduleTag;
-        var module = moduleTag.split('.')[0];
-        if (module && moduleTag) {
-            Ext.require(["App.view." + moduleTag], function () {
+        if (moduleTag) {
+            var module = moduleTag.toLowerCase();
+            Ext.require(["App.view." + module + "." + moduleTag], function () {
                 me.loadModule(module);
             });
 

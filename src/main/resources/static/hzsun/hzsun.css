@@ -26,6 +26,31 @@
     text-decoration: none;
     color: black;
 }
+
 .hzsun-imageview ul li a:hover {
     color: #4e8cee;
+}
+
+.hzsun-upgradelogview {
+    display: block;
+}
+
+.hzsun-upgradelogview h2 {
+    width: 350px;
+    height: 30px;
+    background-color: #085889;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 10px;
+    line-height: 30px;
+    margin-left: 20px;
+}
+
+.hzsun-upgradelogview ol {
+    list-style: decimal;
+    background: #FAFAFA;
+    border: 1px solid #DEDEDE;
+    line-height: 24px;
+    margin: 0 20px;
 }

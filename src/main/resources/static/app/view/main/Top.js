@@ -3,29 +3,29 @@
  */
 
 Ext.define("App.view.main.Top", {
-	extend: "Ext.container.Container",
-	xtype: "top",
-	id: "top",
-	uses: ["App.ux.XBtn"],
-	
-	initComponent: function() {
-		Ext.apply(this, {
-			height: 40,
-			border: false,
-			layout: "auto",
-			items: [{
-				xtype: "image",
-				//src: "img/logo.png",
-				cls: "main-logo"
-			}, {
-				xtype: "container",
-				cls: "top-tool",
-				items: [{
-					xtype: "label",
-					bind : {
-						html: '{welcomeDesc}'
-					}
-				}, {
+    extend: "Ext.container.Container",
+    xtype: "top",
+    id: "top",
+    uses: ["App.ux.XBtn"],
+
+    initComponent: function () {
+        Ext.apply(this, {
+            height: 40,
+            border: false,
+            layout: "auto",
+            items: [{
+                xtype: "image",
+                //src: "img/logo.png",
+                cls: "main-logo"
+            }, {
+                xtype: "container",
+                cls: "top-tool",
+                items: [{
+                    xtype: "label",
+                    bind: {
+                        html: '{welcomeDesc}'
+                    }
+                }, {
                     xtype: "hzsunbutton",
                     text: "设置",
                     glyph: 0xf013,
@@ -43,8 +43,8 @@ Ext.define("App.view.main.Top", {
                         handler: "exitSys"
                     }]
                 }]
-			}]
-		}); 
-		this.callParent(arguments);
-	}
+            }]
+        });
+        this.callParent(arguments);
+    }
 });

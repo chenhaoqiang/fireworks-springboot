@@ -2,7 +2,7 @@
  * 视图 - 首页
  */
 Ext.define("App.view.desktop.Desktop", {
-    extend: "Ext.panel.Panel",
+    extend: "Hzsun.panel.Panel",
     xtype: "desktop",
     id: 'desktop',
     requires: [

@@ -18,6 +18,7 @@
 
     <script type="text/javascript">
         comm.add("platformSession", ${Session.platformSession});
+        comm.add("softwareVersion", '${softwareVersion}');
     </script>
 </head>
 <body>
