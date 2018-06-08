@@ -13,6 +13,7 @@ Ext.define("App.view.main.Nav", {
     margin: "0 5 0 5",
     width: 225,
     border: true,
+    filter: true,
 
     rootVisible: false,
     bind: {
