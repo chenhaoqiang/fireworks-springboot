@@ -38,13 +38,14 @@
 .hzsun-upgradelogview h2 {
     width: 350px;
     height: 30px;
-    background-color: #085889;
+    background-color: #157fcc;
     color: #fff;
     font-size: 16px;
     font-weight: bold;
     padding-left: 10px;
     line-height: 30px;
     margin-left: 20px;
+    border-radius: 6px;
 }
 
 .hzsun-upgradelogview ol {
