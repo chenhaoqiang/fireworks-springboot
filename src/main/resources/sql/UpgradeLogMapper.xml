@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chq.fireworks.mapper.UpgradeLogMapper">
+    <resultMap id="BaseResultMap" type="com.chq.fireworks.model.UpgradeLog">
+        <id column="log_id" property="logId" jdbcType="INTEGER"/>
+        <result column="upgrade_user" property="upgradeUser" jdbcType="VARCHAR"/>
+        <result column="upgrade_time" property="upgradeTime" jdbcType="TIMESTAMP"/>
+        <result column="software_version" property="softwareVersion" jdbcType="VARCHAR"/>
+        <result column="upgrade_content" property="upgradeContent" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      log_id, upgrade_user, upgrade_time, software_version, upgrade_content
+    </sql>
+
+    <select id="queryUpgradeLog" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sc_upgrade_log
+        ORDER BY log_id DESC
+    </select>
+
+    <select id="getSoftwareVersion" resultType="string">
+      SELECT software_version FROM sc_upgrade_log
+      WHERE log_id=(
+        SELECT MAX(log_id) FROM sc_upgrade_log
+      )
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sc_upgrade_log
+        where log_id = #{logId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_upgrade_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.chq.fireworks.model.UpgradeLog">
+    insert into sc_upgrade_log (log_id, upgrade_user, upgrade_time, 
+      software_version, upgrade_content)
+    values (#{logId,jdbcType=INTEGER}, #{upgradeUser,jdbcType=VARCHAR}, #{upgradeTime,jdbcType=TIMESTAMP}, 
+      #{softwareVersion,jdbcType=VARCHAR}, #{upgradeContent,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.chq.fireworks.model.UpgradeLog">
+        insert into sc_upgrade_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                log_id,
+            </if>
+            <if test="upgradeUser != null">
+                upgrade_user,
+            </if>
+            <if test="upgradeTime != null">
+                upgrade_time,
+            </if>
+            <if test="softwareVersion != null">
+                software_version,
+            </if>
+            <if test="upgradeContent != null">
+                upgrade_content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logId != null">
+                #{logId,jdbcType=INTEGER},
+            </if>
+            <if test="upgradeUser != null">
+                #{upgradeUser,jdbcType=VARCHAR},
+            </if>
+            <if test="upgradeTime != null">
+                #{upgradeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="softwareVersion != null">
+                #{softwareVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="upgradeContent != null">
+                #{upgradeContent,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.UpgradeLog">
+        update sc_upgrade_log
+        <set>
+            <if test="upgradeUser != null">
+                upgrade_user = #{upgradeUser,jdbcType=VARCHAR},
+            </if>
+            <if test="upgradeTime != null">
+                upgrade_time = #{upgradeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="softwareVersion != null">
+                software_version = #{softwareVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="upgradeContent != null">
+                upgrade_content = #{upgradeContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where log_id = #{logId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.UpgradeLog">
+    update sc_upgrade_log
+    set upgrade_user = #{upgradeUser,jdbcType=VARCHAR},
+      upgrade_time = #{upgradeTime,jdbcType=TIMESTAMP},
+      software_version = #{softwareVersion,jdbcType=VARCHAR},
+      upgrade_content = #{upgradeContent,jdbcType=VARCHAR}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>
