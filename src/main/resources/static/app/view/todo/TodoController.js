@@ -1,5 +1,5 @@
 /*
- * 视图控制器 -我的任务
+ * 视图控制器 -我的待办
  */
 Ext.define('App.view.todo.TodoController', {
 	extend : 'Ext.app.ViewController',
@@ -10,7 +10,7 @@ Ext.define('App.view.todo.TodoController', {
 
 	openAddTodoWin : function(btn) {
 		var win = Ext.create('App.view.todo.TodoWin', {
-			title : '新增任务'
+			title : '新增待办'
 		});
 		win.show(null, function() {
 			win.down('#todoTypeCombo').setValue(1);
@@ -29,7 +29,7 @@ Ext.define('App.view.todo.TodoController', {
 			return;
 		}
 		var win = Ext.create('App.view.todo.TodoWin', {
-			title : '修改任务'
+			title : '修改待办'
 		});
 		win.show(null, function() {
 			Hzsun.Ajax.request({
@@ -95,7 +95,7 @@ Ext.define('App.view.todo.TodoController', {
 		}
 		
 		var win = Ext.create('App.view.todo.CompleteTodoWin', {
-			title : '完成任务'
+			title : '完成待办'
 		});
 		win.show(null, function() {
 			win.down('#content').setValue(g.getSelection()[0].get('content'));

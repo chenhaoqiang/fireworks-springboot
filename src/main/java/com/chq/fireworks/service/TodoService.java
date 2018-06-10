@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
- * 任务服务。
+ * 待办服务。
  *
  * @author chenhaoqiang
  * @version fireworks 1.0
@@ -18,47 +18,47 @@ import java.util.List;
 public interface TodoService {
 
     /**
-     * 新增任务。
+     * 新增待办。
      *
-     * @param todo 任务信息
+     * @param todo 待办信息
      */
     void addTodo(Todo todo);
 
     /**
-     * 删除任务。
+     * 删除待办。
      *
-     * @param todoNum 任务编号
+     * @param todoNum 待办编号
      */
     void deleteTodo(Integer todoNum);
 
     /**
-     * 修改任务。
+     * 修改待办。
      *
-     * @param todo 任务信息
+     * @param todo 待办信息
      */
     void updateTodo(Todo todo);
 
     /**
-     * 查询任务。
+     * 查询待办。
      *
-     * @param todoQuery 任务查询对象
-     * @return 任务列表
+     * @param todoQuery 待办查询对象
+     * @return 待办列表
      */
     List<Todo> queryTodo(TodoQuery todoQuery);
 
     /**
-     * 查询任务（分页）。
+     * 查询待办（分页）。
      *
-     * @param todoQuery 任务查询对象
+     * @param todoQuery 待办查询对象
      * @param pageBean  分页bean
-     * @return 任务列表
+     * @return 待办列表
      */
     PageInfo<Todo> queryTodo(TodoQuery todoQuery, PageBean pageBean);
 
     /**
-     * 完成任务。
+     * 完成待办。
      *
-     * @param todoNum        任务编号
+     * @param todoNum        待办编号
      * @param completeUser   完成者
      * @param completeRemark 完成说明
      */

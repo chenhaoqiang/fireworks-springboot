@@ -1,5 +1,7 @@
 package com.chq.fireworks.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 public class Todo {
@@ -7,6 +9,7 @@ public class Todo {
 
     private String content;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private String createUser;
@@ -17,9 +20,40 @@ public class Todo {
 
     private String completeRemark;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date completeTime;
 
     private String completeUser;
+
+    private String todoTypeName;
+
+    private String createUserName;
+
+    private String completeUserName;
+
+    public String getTodoTypeName() {
+        return todoTypeName;
+    }
+
+    public void setTodoTypeName(String todoTypeName) {
+        this.todoTypeName = todoTypeName;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
+    }
+
+    public String getCompleteUserName() {
+        return completeUserName;
+    }
+
+    public void setCompleteUserName(String completeUserName) {
+        this.completeUserName = completeUserName;
+    }
 
     public Integer getTodoNum() {
         return todoNum;

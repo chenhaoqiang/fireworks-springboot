@@ -10,8 +10,8 @@ public class DictEnums {
 	 * @version FW 1.0
 	 */
 	public enum DictType {
-		TODO_TYPE(1),// 任务类型
-		TODO_STATUS(2),// 任务状态
+		TODO_TYPE(1),// 待办类型
+		TODO_STATUS(2),// 待办状态
 		ID_TYPE(28)// 证件类型
 		;
 

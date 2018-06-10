@@ -11,6 +11,9 @@
     <result column="complete_remark" jdbcType="VARCHAR" property="completeRemark" />
     <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
     <result column="complete_user" jdbcType="VARCHAR" property="completeUser" />
+    <result column="todo_type_name" jdbcType="VARCHAR" property="todoTypeName" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="complete_user_name" jdbcType="VARCHAR" property="completeUserName" />
   </resultMap>
   <sql id="Base_Column_List">
     todo_num, content, create_time, create_user, status, todo_type, complete_remark, 
@@ -24,8 +27,8 @@
 
   <select id="queryTodo" resultMap="BaseResultMap">
     select
-    <include refid="Column_List" />, b.dict_name as todotype_dict_name,
-    c.user_name as crtu_user_name, d.user_name as cplu_user_name
+    <include refid="Column_List" />, b.dict_name as todo_type_name,
+    c.user_name as create_user_name, d.user_name as complete_user_name
     from tk_todo a
     left join sc_dict b on a.todo_type = b.dict_num and b.type_num = #{todoTypeDictType}
     left join sc_user c on a.create_user = c.user_num

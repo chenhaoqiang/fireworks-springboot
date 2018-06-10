@@ -1,5 +1,5 @@
 /*
- * 视图模型 - 我的任务
+ * 视图模型 - 我的待办
  */
 Ext.define('App.view.todo.TodoModel', {
 	extend : 'Ext.app.ViewModel',

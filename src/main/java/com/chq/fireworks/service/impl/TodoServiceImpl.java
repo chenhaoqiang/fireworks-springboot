@@ -73,14 +73,14 @@ public class TodoServiceImpl implements TodoService {
     }
 
     private void checkComplete(Integer todoNum, String completeUser, String completeRemark) {
-        AssertUtil.notNull(todoNum, "任务编号不能为空");
+        AssertUtil.notNull(todoNum, "待办编号不能为空");
         AssertUtil.isNotBlank(completeUser, "完成者不能为空");
         TodoQuery todoQuery = new TodoQuery();
         todoQuery.setTodoNum(todoNum);
         List<Todo> pos = todoMapper.queryTodo(todoQuery);
-        AssertUtil.isNotEmpty(pos, "任务不存在");
-        AssertUtil.isTrue(pos.size() == 1, "存在多个任务");
-        AssertUtil.isNotTrue(pos.get(0).getStatus().equals(DictEnums.TodoStatus.COMPLETED.getValue()), "任务已完成");
+        AssertUtil.isNotEmpty(pos, "待办不存在");
+        AssertUtil.isTrue(pos.size() == 1, "存在多个待办");
+        AssertUtil.isNotTrue(pos.get(0).getStatus().equals(DictEnums.TodoStatus.COMPLETED.getValue()), "待办已完成");
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * 视图 - 任务完成窗口
+ * 视图 - 待办完成窗口
  */
 Ext.define('App.view.todo.CompleteTodoWin', {
 	extend: 'Hzsun.window.Window',
@@ -16,7 +16,7 @@ Ext.define('App.view.todo.CompleteTodoWin', {
 		items : [ {
 			xtype : 'hzsuntextarea',
 			itemId : 'content',
-			fieldLabel : '任务内容',
+			fieldLabel : '待办内容',
 			height : 200,
 			editable : false
 		}, {

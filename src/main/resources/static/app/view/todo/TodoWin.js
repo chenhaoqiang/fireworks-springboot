@@ -1,5 +1,5 @@
 /*
- * 视图 - 任务新增/修改窗口
+ * 视图 - 待办新增/修改窗口
  */
 Ext.define("App.view.todo.TodoWin", {
 	extend: "Hzsun.window.Window",
@@ -24,7 +24,7 @@ Ext.define("App.view.todo.TodoWin", {
 			xtype : 'hzsuncombo',
 			name : 'todoType',
 			itemId : 'todoTypeCombo',
-			fieldLabel : '任务类型',
+			fieldLabel : '待办类型',
 			bind : {
 				store : '{todoTypeDict}'
 			},
@@ -35,7 +35,7 @@ Ext.define("App.view.todo.TodoWin", {
 			xtype : 'hzsuntextarea',
 			name : 'content',
 			itemId : 'content',
-			fieldLabel : '任务内容',
+			fieldLabel : '待办内容',
 			height : 300,
 			allowBlank : false
 		}]

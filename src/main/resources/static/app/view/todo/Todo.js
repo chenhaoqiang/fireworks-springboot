@@ -1,10 +1,10 @@
 /*
- * 视图 - 我的任务
+ * 视图 - 我的待办
  */
 Ext.define('App.view.todo.Todo', {
 	extend : 'Hzsun.ux.SimpleGrid',
 	xtype : 'todo',
-	title : '我的任务',
+	title : '我的待办',
 	id : 'todoGrid',
 	selType : 'rowmodel',
 	requires : [ 'App.view.todo.TodoModel', 'App.view.todo.TodoController' ],
@@ -23,15 +23,15 @@ Ext.define('App.view.todo.Todo', {
 	},
 
 	columns : [ {
-		text : '任务编号',
+		text : '待办编号',
 		dataIndex : 'todoNum',
 		width : 80
 	}, {
-		text : '任务分类',
+		text : '待办分类',
 		dataIndex : 'todoTypeName',
 		width : 80
 	}, {
-		text : '任务内容',
+		text : '待办内容',
 		dataIndex : 'content',
 		width : 600
 	}, {
@@ -103,7 +103,7 @@ Ext.define('App.view.todo.Todo', {
 	}, {
 		xtype : 'hzsuncombo',
 		name : 'todoType',
-		fieldLabel : '任务分类',
+		fieldLabel : '待办分类',
 		bind : {
 			store : '{todoTypeDict}'
 		},
@@ -113,7 +113,7 @@ Ext.define('App.view.todo.Todo', {
 	}, {
 		xtype : 'hzsuncombo',
 		name : 'status',
-		fieldLabel : '任务状态',
+		fieldLabel : '待办状态',
 		bind : {
 			store : '{todoStatusDict}'
 		},

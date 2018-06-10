@@ -1,5 +1,5 @@
 /*
- * 视图模型 - 我的任务窗口
+ * 视图模型 - 我的待办窗口
  */
 Ext.define('App.view.todo.TodoWinModel', {
 	extend : 'Ext.app.ViewModel',
