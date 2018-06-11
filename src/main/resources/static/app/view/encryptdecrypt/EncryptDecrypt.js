@@ -2,7 +2,10 @@ Ext.define('App.view.encryptdecrypt.EncryptDecrypt', {
     extend: 'Hzsun.panel.Panel',
     xtype: 'encryptdecrypt',
     title: '加密解密',
-    requires: ['App.view.encryptdecrypt.EncryptDecryptController'],
+    requires: ['App.view.encryptdecrypt.EncryptDecryptController', 'App.view.encryptdecrypt.EncryptDecryptModel'],
+    viewModel : {
+        type : 'encryptdecrypt'
+    },
     controller: 'encryptdecrypt',
 
     layout: {
@@ -14,29 +17,21 @@ Ext.define('App.view.encryptdecrypt.EncryptDecrypt', {
     items: [{
         xtype: 'hzsunform',
         border: true,
-        frame: true,
-        width: 500,
-        height: 300,
+        width: 300,
+        height: 130,
         fieldDefaults: {
-            labelWidth: 140,
+            labelWidth: 60,
             margin: '10 10 30 10'
         },
         items: [{
-            xtype: 'hzsuntextfield',
-            fieldLabel: 'Oracle数据库连接地址',
-            name: 'url',
-            allowBlank: false,
-            value: 'jdbc:oracle:thin:@192.168.1.101:1521:easytongdb'
-        }, {
-            xtype: 'hzsuntextfield',
-            fieldLabel: '数据库用户名',
-            name: 'userName',
-            allowBlank: false
-        }, {
-            xtype: 'hzsuntextfield',
-            inputType: 'password',
-            fieldLabel: '数据库密码',
-            name: 'password',
+            xtype : 'hzsuncombo',
+            name : 'dataSourceId',
+            fieldLabel : '数据源',
+            bind : {
+                store : '{datasource}'
+            },
+            displayField: 'dataSourceName',
+            valueField: 'dataSourceId',
             allowBlank: false
         }, {
             xtype: 'hzsuntextfield',
@@ -45,10 +40,6 @@ Ext.define('App.view.encryptdecrypt.EncryptDecrypt', {
             listeners: {
                 change: 'onAccNumChange'
             }
-        }],
-        buttons: [{
-            text: '测试连接',
-            handler: 'testConnection'
         }]
     }, {
         xtype: 'container',

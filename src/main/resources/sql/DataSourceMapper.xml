@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chq.fireworks.mapper.DataSourceMapper">
+    <resultMap id="BaseResultMap" type="com.chq.fireworks.model.DataSource">
+        <id column="data_source_id" jdbcType="INTEGER" property="dataSourceId" />
+        <result column="data_source_type" jdbcType="INTEGER" property="dataSourceType" />
+        <result column="data_source_name" jdbcType="VARCHAR" property="dataSourceName" />
+        <result column="host" jdbcType="VARCHAR" property="host" />
+        <result column="port" jdbcType="INTEGER" property="port" />
+        <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
+        <result column="data_source_user_name" jdbcType="VARCHAR" property="dataSourceUserName" />
+        <result column="data_source_password" jdbcType="VARCHAR" property="dataSourcePassword" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        data_source_id, data_source_type, data_source_name, host, port, service_name, data_source_user_name,
+        data_source_password, user_id, create_time, update_time
+    </sql>
+    <sql id="Column_List">
+        a.data_source_id, a.data_source_type, a.data_source_name, a.host, a.port, a.service_name, a.data_source_user_name,
+        a.data_source_password, a.user_id, a.create_time, a.update_time
+    </sql>
+
+    <select id="queryDataSource" resultMap="BaseResultMap">
+        select
+        <include refid="Column_List" />
+        from sc_data_source a
+        <where>
+            <if test="dataSourceName != null and dataSourceName != ''">
+                <choose>
+                    <when test="isDataSourceNameFuzzyQuery">
+                        a.data_source_name like CONCAT('%', #{dataSourceName}, '%')
+                    </when>
+                    <otherwise>
+                        a.data_source_name = #{dataSourceName}
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        order by a.data_source_id desc
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sc_data_source
+        where data_source_id = #{dataSourceId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM sc_data_source
+        WHERE data_source_id = #{dataSourceId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.chq.fireworks.model.DataSource">
+        INSERT INTO sc_data_source (data_source_id, data_source_type, data_source_name,
+                                    host, port, service_name,
+                                    data_source_user_name, data_source_password,
+                                    user_id, create_time, update_time
+        )
+        VALUES
+            (#{dataSourceId,jdbcType=INTEGER}, #{dataSourceType,jdbcType=INTEGER}, #{dataSourceName,jdbcType=VARCHAR},
+                                               #{host,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER},
+                                               #{serviceName,jdbcType=VARCHAR},
+                                               #{dataSourceUserName,jdbcType=VARCHAR},
+                                               #{dataSourcePassword,jdbcType=VARCHAR},
+                                               #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+                                               #{updateTime,jdbcType=TIMESTAMP}
+            )
+    </insert>
+    <insert id="insertSelective" parameterType="com.chq.fireworks.model.DataSource">
+        insert into sc_data_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dataSourceId != null">
+                data_source_id,
+            </if>
+            <if test="dataSourceType != null">
+                data_source_type,
+            </if>
+            <if test="dataSourceName != null">
+                data_source_name,
+            </if>
+            <if test="host != null">
+                host,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="serviceName != null">
+                service_name,
+            </if>
+            <if test="dataSourceUserName != null">
+                data_source_user_name,
+            </if>
+            <if test="dataSourcePassword != null">
+                data_source_password,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dataSourceId != null">
+                #{dataSourceId,jdbcType=INTEGER},
+            </if>
+            <if test="dataSourceType != null">
+                #{dataSourceType,jdbcType=INTEGER},
+            </if>
+            <if test="dataSourceName != null">
+                #{dataSourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="host != null">
+                #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=INTEGER},
+            </if>
+            <if test="serviceName != null">
+                #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataSourceUserName != null">
+                #{dataSourceUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataSourcePassword != null">
+                #{dataSourcePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.chq.fireworks.model.DataSource">
+        update sc_data_source
+        <set>
+            <if test="dataSourceType != null">
+                data_source_type = #{dataSourceType,jdbcType=INTEGER},
+            </if>
+            <if test="dataSourceName != null">
+                data_source_name = #{dataSourceName,jdbcType=VARCHAR},
+            </if>
+            <if test="host != null">
+                host = #{host,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                port = #{port,jdbcType=INTEGER},
+            </if>
+            <if test="serviceName != null">
+                service_name = #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataSourceUserName != null">
+                data_source_user_name = #{dataSourceUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="dataSourcePassword != null">
+                data_source_password = #{dataSourcePassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where data_source_id = #{dataSourceId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.chq.fireworks.model.DataSource">
+        UPDATE sc_data_source
+        SET data_source_type      = #{dataSourceType,jdbcType=INTEGER},
+            data_source_name      = #{dataSourceName,jdbcType=VARCHAR},
+            host                  = #{host,jdbcType=VARCHAR},
+            port                  = #{port,jdbcType=INTEGER},
+            service_name          = #{serviceName,jdbcType=VARCHAR},
+            data_source_user_name = #{dataSourceUserName,jdbcType=VARCHAR},
+            data_source_password  = #{dataSourcePassword,jdbcType=VARCHAR},
+            user_id               = #{userId,jdbcType=INTEGER},
+            create_time           = #{createTime,jdbcType=TIMESTAMP},
+            update_time           = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE data_source_id = #{dataSourceId,jdbcType=INTEGER}
+    </update>
+</mapper>

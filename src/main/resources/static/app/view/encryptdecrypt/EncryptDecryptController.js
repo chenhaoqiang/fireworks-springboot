@@ -5,19 +5,6 @@ Ext.define('App.view.encryptdecrypt.EncryptDecryptController', {
     init: function () {
     },
 
-    testConnection: function (btn) {
-        var form = btn.up('hzsunform').getForm();
-        if (form.isValid()) {
-            Hzsun.Ajax.request({
-                url: 'public/testConnection',
-                params: form.getValues(),
-                success: function () {
-                    Hzsun.Msg.info('连接成功！');
-                }
-            });
-        }
-    },
-
     encryptPassword: function (btn) {
         var me = this;
         var form = btn.up('hzsunpanel').down('hzsunform').getForm();

@@ -3,14 +3,21 @@ package com.chq.fireworks.controller;
 import com.alibaba.fastjson.JSON;
 import com.chq.fireworks.common.BusinessException;
 import com.chq.fireworks.common.util.AssertUtil;
+import com.chq.fireworks.common.util.DBUtil;
 import com.chq.fireworks.common.util.PasswordUtil;
+import com.chq.fireworks.mapper.DataSourceMapper;
+import com.chq.fireworks.model.DataSource;
 import com.hzsun.framework.commons.utils.ExceptionUtil;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.PrintWriter;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,9 +27,13 @@ public class EncryptDecryptController extends BaseController {
 
     private static final Logger logger = Logger.getLogger(EncryptDecryptController.class);
 
+    @Autowired
+    private DataSourceMapper dataSourceMapper;
+
     @RequestMapping(value = "/decryptPassword")
-    public void decryptPassword(String url, String userName, String password, Integer accNum, PrintWriter pw) {
-        Connection conn = getConnection(url, userName, password);
+    public void decryptPassword(Integer dataSourceId, Integer accNum, PrintWriter pw) {
+        DataSource dataSource = dataSourceMapper.selectByPrimaryKey(dataSourceId);
+        Connection conn = DBUtil.getConnection(dataSource.getHost(), dataSource.getPort(), dataSource.getServiceName(), dataSource.getDataSourceUserName(), dataSource.getDataSourcePassword());
         try {
             String sql = "SELECT paypwd, accnum FROM am_account WHERE accnum=?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -50,18 +61,6 @@ public class EncryptDecryptController extends BaseController {
                 }
             }
         }
-    }
-
-    private Connection getConnection(String url, String userName, String password) {
-        Connection conn;
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            conn = DriverManager.getConnection(url, userName, password);
-        } catch (Exception e) {
-            logger.error("连接Oracle数据库失败：" + ExceptionUtil.getTrace(e));
-            throw new BusinessException("连接Oracle数据库失败：" + e.getMessage());
-        }
-        return conn;
     }
 
 }
