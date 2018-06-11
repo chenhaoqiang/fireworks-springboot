@@ -1,20 +1,27 @@
 package com.chq.fireworks.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.chq.fireworks.common.BusinessException;
 import com.chq.fireworks.common.constant.ExtFieldType;
 import com.chq.fireworks.vo.ExtFieldVO;
+import com.hzsun.framework.commons.utils.ExceptionUtil;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/public")
 public class PublicController extends BaseController {
+
+    private static final Logger logger = Logger.getLogger(PublicController.class);
 
     @RequestMapping(value = "/getModelFields", method = RequestMethod.POST)
     public void getModelFields(String modelName, String excludes, PrintWriter pw) throws ClassNotFoundException {
@@ -34,6 +41,17 @@ public class PublicController extends BaseController {
         }
 
         output(pw, JSON.toJSONString(fieldVOList));
+    }
+
+    @RequestMapping(value = "/testConnection", method = RequestMethod.POST)
+    public void testConnection(String url, String userName, String password, PrintWriter pw) {
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection conn = DriverManager.getConnection(url, userName, password);
+        } catch (Exception e) {
+            logger.error("连接Oracle数据库失败：" + ExceptionUtil.getTrace(e));
+            throw new BusinessException("连接Oracle数据库失败：" + e.getMessage());
+        }
     }
 
     private String getExtFieldType(String fieldType) {

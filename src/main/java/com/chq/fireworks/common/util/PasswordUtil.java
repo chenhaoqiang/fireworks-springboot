@@ -32,6 +32,28 @@ public class PasswordUtil {
         return plainText;
     }
 
+    public static String encryptEasytong(String plainText, Integer secretKey) {
+        String cipherText = null;
+        try {
+            cipherText = DesAlgorithmUtil.encryptEasytong(secretKey, plainText);
+        } catch (Exception e) {
+            logger.error(ExceptionUtil.getTrace(e));
+            throw new BusinessException("易通加密错误：" + e.getMessage());
+        }
+        return cipherText;
+    }
+
+    public static String decryptEasytong(String cipherText, Integer secretKey) {
+        String plainText = null;
+        try {
+            plainText = DesAlgorithmUtil.decryptEasytong(secretKey, cipherText);
+        } catch (Exception e) {
+            logger.error(ExceptionUtil.getTrace(e));
+            throw new BusinessException("易通解密错误：" + e.getMessage());
+        }
+        return plainText;
+    }
+
     public static void main(String[] args) {
         String cipherText = encrypt("888888", "100001");
         System.out.println(cipherText);
