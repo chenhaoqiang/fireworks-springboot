@@ -25,7 +25,7 @@ Ext.define("App.view.main.MainController", {
                     moduleCode: rec.data.id
                 },
                 success: function () {
-                    
+
                 }
             });
         } else {
@@ -101,6 +101,22 @@ Ext.define("App.view.main.MainController", {
                 }
             });
         }
+    },
+
+    changeThemeToNeptune: function (btn) {
+        this.changeTheme('neptune');
+    },
+
+    changeThemeToClassic: function (btn) {
+        this.changeTheme('classic');
+    },
+
+    changeThemeToCrisp: function () {
+        this.changeTheme('crisp');
+    },
+
+    changeTheme: function (themeName) {
+        Ext.fly('theme').set({href: 'lib/extjs/themes/' + themeName + '/ext-theme-' + themeName + '-all.css'});
     }
 
 });

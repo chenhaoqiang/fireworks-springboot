@@ -38,6 +38,19 @@ Ext.define("App.view.main.Top", {
                         glyph: 0xf044,
                         handler: "openUpdateUserPasswordWin"
                     }, {
+                        text: '更换皮肤',
+                        glyph: 0xf009,
+                        menu: [{
+                            text: '默认',
+                            handler: "changeThemeToNeptune"
+                        }, {
+                            text: '经典',
+                            handler: "changeThemeToClassic"
+                        }, {
+                            text: '白色',
+                            handler: "changeThemeToCrisp"
+                        }]
+                    }, {
                         text: '退出',
                         glyph: 0xf011,
                         handler: "exitSys"
