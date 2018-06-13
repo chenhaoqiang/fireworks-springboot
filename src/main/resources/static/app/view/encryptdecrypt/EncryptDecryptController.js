@@ -7,13 +7,15 @@ Ext.define('App.view.encryptdecrypt.EncryptDecryptController', {
 
     encryptPassword: function (btn) {
         var me = this;
+        var encryptResult = me.lookupReference('encryptResult');
+        encryptResult.setValue('');
         var form = btn.up('hzsunpanel').down('hzsunform').getForm();
         if (form.isValid()) {
             Hzsun.Ajax.request({
                 url: 'encryptdecrypt/encryptPassword',
                 params: form.getValues(),
                 success: function (obj) {
-                    me.lookupReference('result').setValue(obj.encryptPassword);
+                    encryptResult.setValue(obj.encryptPassword);
                 }
             });
         }
@@ -21,24 +23,28 @@ Ext.define('App.view.encryptdecrypt.EncryptDecryptController', {
 
     decryptPassword: function (btn) {
         var me = this;
+        var decryptResult = me.lookupReference('decryptResult');
+        decryptResult.setValue('');
         var form = btn.up('hzsunpanel').down('hzsunform').getForm();
         if (form.isValid()) {
             Hzsun.Ajax.request({
                 url: 'encryptdecrypt/decryptPassword',
                 params: form.getValues(),
                 success: function (obj) {
-                    me.lookupReference('result').setValue(obj.decryptPassword);
+                    decryptResult.setValue(obj.decryptPassword);
                 }
             });
         }
     },
 
-    onAccNumChange: function (field, newValue, oldValue) {
-        if (newValue) {
-            this.lookupReference('decryptBtn').setDisabled(false);
-        } else {
-            this.lookupReference('decryptBtn').setDisabled(true);
-        }
+    onTypeChangeByEncrypt: function (field, newValue, oldValue) {
+        var f = field.nextSibling();
+        f.setFieldLabel('<span style="color:red;">*</span>' + field.getRawValue());
+    },
+
+    onTypeChangeByDecrypt: function (field, newValue, oldValue) {
+        var f = field.nextSibling();
+        f.setFieldLabel('<span style="color:red;">*</span>' + field.getRawValue());
     }
 
 });

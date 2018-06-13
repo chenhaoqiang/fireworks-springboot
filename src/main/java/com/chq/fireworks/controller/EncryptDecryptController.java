@@ -31,27 +31,36 @@ public class EncryptDecryptController extends BaseController {
     private DataSourceMapper dataSourceMapper;
 
     @RequestMapping(value = "/decryptPassword")
-    public void decryptPassword(Integer dataSourceId, Integer accNum, PrintWriter pw) {
+    public void decryptPassword(Integer dataSourceId, Integer secretKey, Integer type, PrintWriter pw) {
         DataSource dataSource = dataSourceMapper.selectByPrimaryKey(dataSourceId);
         Connection conn = DBUtil.getConnection(dataSource.getHost(), dataSource.getPort(), dataSource.getServiceName(), dataSource.getDataSourceUserName(), dataSource.getDataSourcePassword());
         try {
-            String sql = "SELECT paypwd, accnum FROM am_account WHERE accnum=?";
+            String sql = getSelectSql(type);
+
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, accNum);
+            ps.setInt(1, secretKey);
             ResultSet rs = ps.executeQuery();
 
             boolean hasNext = rs.next();
-            AssertUtil.isTrue(hasNext, "易通账号不存在");
-            String easytongPassword = rs.getString("paypwd");
+            if (type.equals(1)) {
+                AssertUtil.isTrue(hasNext, "账号不存在");
+            } else if (type.equals(2)) {
+                AssertUtil.isTrue(hasNext, "操作员编号不存在");
+            } else if (type.equals(3)) {
+                AssertUtil.isTrue(hasNext, "商户编号不存在");
+            } else {
+                throw new BusinessException("类型不正确");
+            }
+            String easytongPassword = rs.getString("password");
             ps.close();
 
-            String decryptPassword = PasswordUtil.decryptEasytong(easytongPassword, accNum).trim();
+            String decryptPassword = PasswordUtil.decryptEasytong(easytongPassword, secretKey).trim();
             Map<String, String> map = new HashMap<>();
             map.put("decryptPassword", decryptPassword);
             output(pw, JSON.toJSONString(map));
         } catch (SQLException e) {
-            logger.error("查询易通账户失败：" + ExceptionUtil.getTrace(e));
-            throw new BusinessException("查询易通账户失败：" + e.getMessage());
+            logger.error("解密失败：" + ExceptionUtil.getTrace(e));
+            throw new BusinessException("解密失败：" + e.getMessage());
         } finally {
             if (null != conn) {
                 try {
@@ -61,6 +70,30 @@ public class EncryptDecryptController extends BaseController {
                 }
             }
         }
+    }
+
+    private String getSelectSql(Integer type) {
+        String sql = null;
+        switch (type) {
+            case 1:
+                sql = "SELECT paypwd as password FROM am_account WHERE accnum=?";
+                break;
+            case 2:
+                sql = "SELECT logpwd as password FROM sc_operator WHERE optnum=?";
+                break;
+            case 3:
+                sql = "SELECT logpwd as password FROM sc_business WHERE businessnum=?";
+                break;
+        }
+        return sql;
+    }
+
+    @RequestMapping(value = "/encryptPassword")
+    public void encryptPassword(String plainText, Integer secretKey, Integer type, PrintWriter pw) {
+        String encryptPassword = PasswordUtil.encryptEasytong(plainText, secretKey);
+        Map<String, String> map = new HashMap<>();
+        map.put("encryptPassword", encryptPassword);
+        output(pw, JSON.toJSONString(map));
     }
 
 }
