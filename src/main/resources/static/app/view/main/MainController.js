@@ -116,6 +116,7 @@ Ext.define("App.view.main.MainController", {
     },
 
     changeTheme: function (themeName) {
+        Ext.util.Cookies.set('fireworks-theme', themeName, new Date(new Date().getTime() + 365 * 24 * 60 * 60 * 1000));
         Ext.fly('theme').set({href: 'lib/extjs/themes/' + themeName + '/ext-theme-' + themeName + '-all.css'});
     }
 

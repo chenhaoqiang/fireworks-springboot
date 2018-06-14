@@ -41,14 +41,14 @@ Ext.define("App.view.main.Top", {
                         text: '更换皮肤',
                         glyph: 0xf009,
                         menu: [{
-                            text: '默认',
-                            handler: "changeThemeToNeptune"
+                            text: '默认(白色)',
+                            handler: "changeThemeToCrisp"
                         }, {
                             text: '经典',
                             handler: "changeThemeToClassic"
                         }, {
-                            text: '白色',
-                            handler: "changeThemeToCrisp"
+                            text: '蓝色',
+                            handler: "changeThemeToNeptune"
                         }]
                     }, {
                         text: '退出',

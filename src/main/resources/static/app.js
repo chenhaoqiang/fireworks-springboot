@@ -9,6 +9,7 @@ Ext.Loader.setConfig({
 
 // 同步加载
 Ext.require([
+    'Hzsun.util.String',
     'App.factory.ModelFactory',
     'Hzsun.window.Window',
     'Hzsun.form.Panel',
