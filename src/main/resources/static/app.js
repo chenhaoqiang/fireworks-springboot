@@ -20,6 +20,7 @@ Ext.require([
     'Hzsun.button.Button',
     'Hzsun.toolbar.Paging',
     'Hzsun.form.field.Text',
+    'Hzsun.form.field.File',
     'Hzsun.grid.Panel',
     'Hzsun.ux.SimpleGrid',
     'Hzsun.ux.SimpleTreeGrid',
